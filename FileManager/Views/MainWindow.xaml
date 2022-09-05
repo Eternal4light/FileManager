@@ -1,0 +1,79 @@
+﻿<Window x:Class="FileManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileManager" xmlns:viewmodels="clr-namespace:FileManager.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
+        mc:Ignorable="d"
+        Title="FileManager" Height="810" Width="1440">
+
+    <Grid Background="#464d5b">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="0" Grid.ColumnSpan="2" CornerRadius="20" Background="#545b6a" Margin="20">
+            <StackPanel Orientation="Horizontal">
+
+                <Button Style="{DynamicResource ButtonStyle1}" Background="#fffca6" Width="60" Margin="10" Content="{Binding LocalToDrives}" Command="{Binding ToDrives}"/>
+
+                <Button Style="{DynamicResource ButtonStyle1}" Background="#464d5b" Foreground="#fffca6" Width="150" Margin="10" Height="35" Content="{Binding NodeHierarchy[0].Name}" Command="{Binding ToNode0}"/>
+                <Button Style="{DynamicResource ButtonStyle1}" Background="#464d5b" Foreground="#fffca6" Width="150" Margin="10" Height="35" Content="{Binding NodeHierarchy[1].Name}" Command="{Binding ToNode1}"/>
+                <Button Style="{DynamicResource ButtonStyle1}" Background="#464d5b" Foreground="#fffca6" Width="150" Margin="10" Height="35" Content="{Binding NodeHierarchy[2].Name}" Command="{Binding ToNode2}"/>
+                <Button Style="{DynamicResource ButtonStyle1}" Background="#464d5b" Foreground="#fffca6" Width="150" Margin="10" Height="35" Content="{Binding NodeHierarchy[3].Name}" Command="{Binding ToNode3}"/>
+
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="0" CornerRadius="20" Background="#545b6a" Margin="20">
+            <Border.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding JumpToNodeChildren}" />
+            </Border.InputBindings>
+            <ListBox Template="{DynamicResource MainListBoxTemplate}" Style="{StaticResource MainListBoxStyle}" ItemsSource="{Binding NodeChildrenListBoxContent, UpdateSourceTrigger=PropertyChanged}"
+                     SelectedItem="{Binding SelectedNodeChild, UpdateSourceTrigger=PropertyChanged}">
+                
+            </ListBox>
+        </Border>
+        <Border Grid.Row="1" Grid.Column="1" CornerRadius="20" Background="#545b6a" Margin="20">
+            <ListView ItemsSource="{Binding SelectedNodeChild.Info, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MainListViewStyle}">
+            </ListView>
+        </Border>
+
+        <Grid Grid.Row="2" Grid.Column="1" Margin="20">
+            <ComboBox Style="{DynamicResource LocalizationComboBoxStyle}" Foreground="#fffca6" Height="20" MaxWidth="300"
+                      ItemsSource="{Binding Languages }" SelectedItem="{Binding SelectedLanguage}">
+               
+            </ComboBox>
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="0" Margin="20" >
+            <StackPanel >
+
+                <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                    <CheckBox IsChecked="{Binding InChildrenNodes}" ></CheckBox>
+                    <TextBlock  Foreground="#fffca6" Text="{Binding LocalInChildNodes}"/>
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal"  Height="20" HorizontalAlignment="Center">
+
+                    <TextBox Style="{DynamicResource TextBoxStyle1}" Width="300" Margin="150,0,5,0" Text="{Binding KeyWord}" Foreground="#fffca6"></TextBox>
+                    <Button Style="{DynamicResource ButtonStyle1}" Width="50" Margin="5,0,5,0" Command="{Binding Search}" Content="{Binding LocalSearch}" />
+
+                    <StackPanel Orientation="Horizontal" Width="150">
+                        <TextBlock  Foreground="#fffca6" Text="{Binding LocalFoldersChecked}"></TextBlock>
+                        <TextBlock  Foreground="#fffca6" Text="{Binding FoldersChecked}"></TextBlock>
+                    </StackPanel>
+
+                </StackPanel>
+            </StackPanel>
+            
+        </Grid>
+    </Grid>
+</Window>
